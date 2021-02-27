@@ -1,0 +1,8 @@
+Symlinking /home/ubuntu/Desktop/ur10e-hanoi/devel/share/ur_robot_driver/cmake/ur_robot_driverConfig-version.cmake
+Symlinking /home/ubuntu/Desktop/ur10e-hanoi/devel/share/ur_robot_driver/cmake/ur_robot_driverConfig.cmake
+Symlinking /home/ubuntu/Desktop/ur10e-hanoi/devel/lib/libur_robot_driver.so
+Symlinking /home/ubuntu/Desktop/ur10e-hanoi/devel/lib/libur_robot_driver_plugin.so
+Symlinking /home/ubuntu/Desktop/ur10e-hanoi/devel/lib/pkgconfig/ur_robot_driver.pc
+Symlinking /home/ubuntu/Desktop/ur10e-hanoi/devel/lib/ur_robot_driver/ur_robot_driver_node
+Symlinking /home/ubuntu/Desktop/ur10e-hanoi/devel/lib/ur_robot_driver/robot_state_helper
+Symlinking /home/ubuntu/Desktop/ur10e-hanoi/devel/lib/ur_robot_driver/dashboard_client

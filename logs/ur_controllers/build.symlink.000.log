@@ -1,0 +1,4 @@
+Symlinking /home/ubuntu/Desktop/ur10e-hanoi/devel/share/ur_controllers/cmake/ur_controllersConfig-version.cmake
+Symlinking /home/ubuntu/Desktop/ur10e-hanoi/devel/share/ur_controllers/cmake/ur_controllersConfig.cmake
+Symlinking /home/ubuntu/Desktop/ur10e-hanoi/devel/lib/libur_controllers.so
+Symlinking /home/ubuntu/Desktop/ur10e-hanoi/devel/lib/pkgconfig/ur_controllers.pc

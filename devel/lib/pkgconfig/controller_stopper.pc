@@ -1,0 +1,1 @@
+/home/ubuntu/Desktop/ur10e-hanoi/devel/.private/controller_stopper/lib/pkgconfig/controller_stopper.pc

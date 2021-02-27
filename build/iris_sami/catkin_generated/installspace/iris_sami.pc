@@ -1,0 +1,8 @@
+prefix=/home/ubuntu/Desktop/ur10e-hanoi/install
+
+Name: iris_sami
+Description: Description of iris_sami
+Version: 0.0.0
+Cflags: 
+Libs: -L${prefix}/lib 
+Requires: 

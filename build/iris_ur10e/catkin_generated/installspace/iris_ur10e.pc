@@ -1,0 +1,8 @@
+prefix=/home/ubuntu/Desktop/ur10e-hanoi/install
+
+Name: iris_ur10e
+Description: Description of iris_ur10e
+Version: 0.0.0
+Cflags: 
+Libs: -L${prefix}/lib 
+Requires: 

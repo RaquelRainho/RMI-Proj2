@@ -1,0 +1,23 @@
+Linked: (/home/ubuntu/Desktop/ur10e-hanoi/devel/.private/rmi/bin/cmake.lock, /home/ubuntu/Desktop/ur10e-hanoi/devel/bin/cmake.lock)
+Linked: (/home/ubuntu/Desktop/ur10e-hanoi/devel/.private/rmi/bin/scripts, /home/ubuntu/Desktop/ur10e-hanoi/devel/bin/scripts)
+Symlinking /home/ubuntu/Desktop/ur10e-hanoi/devel/share/rmi/cmake/rmi-msg-paths.cmake
+Linked: (/home/ubuntu/Desktop/ur10e-hanoi/devel/.private/rmi/share/rmi/cmake/rmiConfig.cmake, /home/ubuntu/Desktop/ur10e-hanoi/devel/share/rmi/cmake/rmiConfig.cmake)
+Linked: (/home/ubuntu/Desktop/ur10e-hanoi/devel/.private/rmi/share/rmi/cmake/rmiConfig-version.cmake, /home/ubuntu/Desktop/ur10e-hanoi/devel/share/rmi/cmake/rmiConfig-version.cmake)
+Symlinking /home/ubuntu/Desktop/ur10e-hanoi/devel/share/rmi/cmake/rmi-msg-extras.cmake
+Symlinking /home/ubuntu/Desktop/ur10e-hanoi/devel/share/roseus/ros/rmi/manifest.l
+Symlinking /home/ubuntu/Desktop/ur10e-hanoi/devel/share/roseus/ros/rmi/srv/MoveArm.l
+Symlinking /home/ubuntu/Desktop/ur10e-hanoi/devel/share/gennodejs/ros/rmi/_index.js
+Symlinking /home/ubuntu/Desktop/ur10e-hanoi/devel/share/gennodejs/ros/rmi/srv/MoveArm.js
+Symlinking /home/ubuntu/Desktop/ur10e-hanoi/devel/share/gennodejs/ros/rmi/srv/_index.js
+Symlinking /home/ubuntu/Desktop/ur10e-hanoi/devel/share/common-lisp/ros/rmi/srv/rmi-srv.asd
+Symlinking /home/ubuntu/Desktop/ur10e-hanoi/devel/share/common-lisp/ros/rmi/srv/MoveArm.lisp
+Symlinking /home/ubuntu/Desktop/ur10e-hanoi/devel/share/common-lisp/ros/rmi/srv/_package.lisp
+Symlinking /home/ubuntu/Desktop/ur10e-hanoi/devel/share/common-lisp/ros/rmi/srv/_package_MoveArm.lisp
+Symlinking /home/ubuntu/Desktop/ur10e-hanoi/devel/include/rmi/MoveArm.h
+Symlinking /home/ubuntu/Desktop/ur10e-hanoi/devel/include/rmi/MoveArmResponse.h
+Symlinking /home/ubuntu/Desktop/ur10e-hanoi/devel/include/rmi/MoveArmRequest.h
+Linked: (/home/ubuntu/Desktop/ur10e-hanoi/devel/.private/rmi/lib/pkgconfig/rmi.pc, /home/ubuntu/Desktop/ur10e-hanoi/devel/lib/pkgconfig/rmi.pc)
+Linked: (/home/ubuntu/Desktop/ur10e-hanoi/devel/.private/rmi/lib/python2.7/dist-packages/rmi/__init__.py, /home/ubuntu/Desktop/ur10e-hanoi/devel/lib/python2.7/dist-packages/rmi/__init__.py)
+Symlinking /home/ubuntu/Desktop/ur10e-hanoi/devel/lib/python2.7/dist-packages/rmi/srv/__init__.py
+Symlinking /home/ubuntu/Desktop/ur10e-hanoi/devel/lib/python2.7/dist-packages/rmi/srv/_MoveArm.py
+Linked: (/home/ubuntu/Desktop/ur10e-hanoi/devel/.private/rmi/lib/python2.7/dist-packages/rmip/__init__.py, /home/ubuntu/Desktop/ur10e-hanoi/devel/lib/python2.7/dist-packages/rmip/__init__.py)

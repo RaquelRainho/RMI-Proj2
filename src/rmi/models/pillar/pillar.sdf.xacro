@@ -1,0 +1,33 @@
+﻿<?xml version="1.0"?>
+<sdf xmlns:xacro="http://www.ros.org/wiki/xacro" version="1.5">
+
+    <xacro:property name="height" value="0.7"/>
+    <xacro:property name="radius" value="0.10"/>
+
+    <xacro:macro name="pillar" params="pose">
+      <collision name="pillar">
+        <geometry>
+          <cylinder><radius>${radius}</radius><length>${height}</length></cylinder>
+        </geometry>
+        <pose>0 0 ${height/2} 0 0 0</pose>
+      </collision>
+      <visual name="pillar">
+        <geometry>
+          <cylinder><radius>${radius}</radius><length>${height}</length></cylinder>
+        </geometry>
+        <pose>0 0 ${height/2} 0 0 0</pose>
+        <material><script><name>Gazebo/White</name></script></material>
+      </visual>
+    </xacro:macro>
+
+    <model name="pillar">
+
+      <static>true</static>
+
+      <link name="pillar">
+        <xacro:pillar pose="0 0 0 0 0 0"/>
+      </link>
+
+    </model>
+
+</sdf>

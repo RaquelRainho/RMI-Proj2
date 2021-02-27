@@ -1,0 +1,65 @@
+﻿<?xml version="1.0"?>
+<sdf xmlns:xacro="http://www.ros.org/wiki/xacro" version="1.5">
+
+  <!-- properties width, model, and material must be defined before including this file -->
+
+  <model name="ring_${model}">
+
+    <xacro:property name="hole" value="0.025"/>
+    <xacro:property name="handle" value="0.03"/>
+    <xacro:property name="height" value="0.04"/>
+
+    <xacro:property name="D" value="${(width-hole)/2}"/>
+    <xacro:property name="DC" value="${(hole+D)/2}"/>
+
+    <xacro:property name="mass" value="0.02"/>
+
+    <!-- shape is approximated to a holed cylinder -->
+    <xacro:property name="izz" value="${(1/2)*mass*(width*width+hole*hole)}"/>
+    <xacro:property name="ixx" 
+        value="${(1/12)*mass*(3*width*width+3*hole*hole+height*height)}"/>
+
+    <xacro:macro name="part" params="w d x y n">
+        <visual name="part_${n}">
+        <pose>${x} ${y} ${height/2} 0 0 0</pose>
+        <geometry>
+          <box><size>${w} ${d} ${height}</size></box>
+        </geometry>
+        <material><script><name>${material}</name></script></material>
+      </visual>
+      <collision name="part_${n}">
+        <pose>${x} ${y} ${height/2} 0 0 0</pose>
+        <geometry>
+          <box><size>${w} ${d} ${height}</size></box>
+        </geometry>
+        <surface>
+           <bounce> <restitution_coefficient>0.0</restitution_coefficient> </bounce>
+           <friction> <ode> <mu>1</mu> <mu2>1</mu2> </ode> </friction>
+           <contact> <ode> <max_vel>0.01</max_vel> <min_depth>0.001</min_depth> </ode> </contact>
+        </surface>
+      </collision>
+    </xacro:macro>
+
+    <link name="hanoi_ring_${model}">
+      <velocity_decay> <linear>0.01</linear> <angular>1.0</angular> </velocity_decay>
+      <xacro:part w="${width}" d="${D}" x="${0}" y="${DC}" n="T"/> <!-- the top part -->
+      <xacro:part w="${width}" d="${D}" x="${0}" y="${-DC}" n="B"/> <!-- the bottom part -->
+      <xacro:part w="${D}" d="${hole}" x="${-DC}" y="${0}" n="L"/> <!-- the left part -->
+      <xacro:part w="${D}" d="${hole}" x="${DC}" y="${0}" n="R"/> <!-- the right part -->
+      <xacro:part w="${handle}" d="${handle}" 
+          x="${0}" y="${(width+handle)/2}" n="H"/> <!-- the handle part -->
+
+      <inertial name="inertia">
+        <pose>${0} ${0} ${height/2} 0 0 0</pose>
+        <mass>${mass}</mass>
+        <inertia>
+          <ixx>${ixx}</ixx> 
+          <iyy>${ixx}</iyy>
+          <izz>${izz}</izz>
+          <ixy>0</ixy> <ixz>0</ixz> <iyz>0</iyz>
+        </inertia>
+      </inertial>
+    </link>
+
+  </model>
+</sdf>

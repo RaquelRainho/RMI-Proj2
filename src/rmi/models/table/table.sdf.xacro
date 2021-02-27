@@ -1,0 +1,68 @@
+<?xml version="1.0"?>
+<sdf xmlns:xacro="http://www.ros.org/wiki/xacro" version="1.5">
+
+  <xacro:property name="table_height" value="0.70"/>
+  <xacro:property name="top_width" value="1.60"/>
+  <xacro:property name="top_depth" value="0.80"/>
+  <xacro:property name="top_thickness" value="0.03"/>
+  <xacro:property name="leg_radius" value="0.02"/>
+  <xacro:property name="leg_margin" value="0.04"/> <!-- from center of leg to top borders -->
+  <xacro:property name="top_material" value="Gazebo/Wood"/>
+  <xacro:property name="leg_material" value="Gazebo/Black"/>
+
+  <xacro:property name="leg_length" value="${table_height-top_thickness}"/>
+  <xacro:property name="leg_x_offset" value="${top_width/2-leg_margin}"/>
+  <xacro:property name="leg_y_offset" value="${top_depth/2-leg_margin}"/>
+
+  <xacro:macro name="top" params="pose">
+    <collision name="top">
+      <pose>${pose}</pose>
+      <geometry>
+        <box><size>${top_width} ${top_depth} ${top_thickness}</size></box>
+      </geometry>
+      <surface> 
+        <friction>
+          <ode> <mu>1000</mu> <mu2>1000</mu2> </ode>
+          <torsional> <ode/> </torsional>
+        </friction>
+        <contact> <ode/> </contact>
+        <bounce/>
+      </surface>
+    </collision>
+    <visual name="top">
+      <pose>${pose}</pose>
+      <geometry>
+        <box><size>${top_width} ${top_depth} ${top_thickness}</size></box>
+      </geometry>
+      <material><script><name>${top_material}</name></script></material>
+    </visual>
+  </xacro:macro>
+
+  <xacro:macro name="leg" params="pose name">
+    <collision name="leg_${name}">
+      <pose>${pose}</pose>
+      <geometry>
+        <cylinder><radius>${leg_radius}</radius><length>${leg_length}</length></cylinder>
+      </geometry>
+      <max_contacts>10</max_contacts>
+    </collision>
+    <visual name="leg_${name}">
+      <pose>${pose}</pose>
+      <geometry>
+        <cylinder><radius>${leg_radius}</radius><length>${leg_length}</length></cylinder>
+      </geometry>
+      <material><script><name>${leg_material}</name></script></material>
+    </visual>
+  </xacro:macro>
+
+  <model name="table">
+    <static>true</static>
+    <link name="link">
+      <xacro:leg pose="${-leg_x_offset} ${-leg_y_offset} ${leg_length/2} 0 0 0" name="SE"/>
+      <xacro:leg pose="${-leg_x_offset} ${+leg_y_offset} ${leg_length/2} 0 0 0" name="NE"/>
+      <xacro:leg pose="${+leg_x_offset} ${+leg_y_offset} ${leg_length/2} 0 0 0" name="NW"/>
+      <xacro:leg pose="${+leg_x_offset} ${-leg_y_offset} ${leg_length/2} 0 0 0" name="SW"/>
+      <xacro:top pose="0 0 ${leg_length+top_thickness/2} 0 0 0"/>
+    </link>
+  </model>
+</sdf>

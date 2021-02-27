@@ -1,0 +1,63 @@
+﻿<?xml version="1.0"?>
+<sdf xmlns:xacro="http://www.ros.org/wiki/xacro" version="1.4">
+
+  <xacro:property name="base_width" value="0.45"/>
+  <xacro:property name="base_depth" value="0.20"/>
+  <xacro:property name="base_thickness" value="0.03"/>
+  <xacro:property name="base_material" value="Gazebo/White"/>
+  <xacro:property name="rod_radius" value="0.01"/>
+  <xacro:property name="rod_length" value="0.18"/>
+  <xacro:property name="rod_material" value="Gazebo/Black"/>
+  <xacro:property name="cell_side" value="0.15"/>
+
+  <xacro:macro name="base" params="pose">
+    <collision name="base">
+      <pose>${pose}</pose>
+      <geometry>
+        <box><size>${base_width} ${base_depth} ${base_thickness}</size></box>
+      </geometry>
+      <surface> 
+        <friction>
+          <ode> <mu>1</mu> <mu2>1</mu2> </ode>
+          <torsional> <ode/> </torsional>
+        </friction>
+        <contact> <ode/> </contact>
+        <bounce/>
+      </surface>
+    </collision>
+    <visual name="base">
+      <pose>${pose}</pose>
+      <geometry>
+        <box><size>${base_width} ${base_depth} ${base_thickness}</size></box>
+      </geometry>
+      <material><script><name>${base_material}</name></script></material>
+    </visual>
+  </xacro:macro>
+
+  <xacro:macro name="rod" params="pose name">
+    <collision name="rod_${name}">
+      <pose>${pose}</pose>
+      <geometry>
+        <cylinder><radius>${rod_radius}</radius><length>${rod_length}</length></cylinder>
+      </geometry>
+      <max_contacts>10</max_contacts>
+    </collision>
+    <visual name="rod_${name}">
+      <pose>${pose}</pose>
+      <geometry>
+        <cylinder><radius>${rod_radius}</radius><length>${rod_length}</length></cylinder>
+      </geometry>
+      <material><script><name>${rod_material}</name></script></material>
+    </visual>
+  </xacro:macro>
+
+  <model name="hanoi_rod_support">
+      <static>true</static> <!-- thus, inertia is not required -->
+    <link name="link">
+      <xacro:base pose="0 0 ${base_thickness/2} 0 0 0"/>
+      <xacro:rod pose="${-cell_side} 0 ${base_thickness+rod_length/2} 0 0 0" name="A"/>
+      <xacro:rod pose="${0} 0 ${base_thickness+rod_length/2} 0 0 0" name="B"/>
+      <xacro:rod pose="${+cell_side} 0 ${base_thickness+rod_length/2} 0 0 0" name="C"/>
+    </link>
+  </model>
+</sdf>

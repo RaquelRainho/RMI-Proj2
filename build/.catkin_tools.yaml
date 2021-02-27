@@ -1,0 +1,6 @@
+devel_space: /home/ubuntu/Desktop/ur10e-hanoi/devel
+install: false
+install_space: /home/ubuntu/Desktop/ur10e-hanoi/install
+profile: default
+source_space: /home/ubuntu/Desktop/ur10e-hanoi/src
+workspace: /home/ubuntu/Desktop/ur10e-hanoi

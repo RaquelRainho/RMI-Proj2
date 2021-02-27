@@ -1,0 +1,10 @@
+﻿<?xml version="1.0"?>
+<sdf xmlns:xacro="http://www.ros.org/wiki/xacro" version="1.5">
+
+  <xacro:property name="model" value="3"/>
+  <xacro:property name="material" value="Gazebo/Purple"/>
+  <xacro:property name="width" value="0.11"/>
+
+  <xacro:include filename="../model.xacro"/>
+
+</sdf>
