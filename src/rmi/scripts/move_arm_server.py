@@ -2,6 +2,7 @@
 
 import math
 import rospy
+import traceback
 
 from sami.arm import Arm, EzPose, ArmMotionChain
 from sami.gripper import Gripper
@@ -15,7 +16,7 @@ def move_arm(req):
         arm = Arm('ur10e', group='manipulator')
         arm.velocity = 0.2
 
-        gripper = Gripper('cr200-85', host='localhost', port=44221)
+        #gripper = Gripper('cr200-85', host='localhost', port=44221)
 
         pose = [ req.x, req.y, req.z, req.roll, req.pitch, req.yaw ]
         arm.move_pose(pose)
@@ -28,11 +29,14 @@ def move_arm(req):
         # arm.move_pose_relative(dpose=EzPose(yaw=math.pi*0.25), velocity=0.5)
         # arm.move_pose_relative(dpose=EzPose(yaw=-math.pi*0.25), velocity=0.05)
 
-        print("Gripping: " + req.gripping)
+        print("Gripping: %s"%(req.gripping))
         if req.gripping:
-            gripper.grip()
+        	print("(closing gripper)")
+            #gripper.grip()
         else:
-            gripper.release()
+        	print("(opening gripper")
+        	#gripper.grip()	# necessary for gripper's state machine ?
+        	#gripper.release()
 
         # a = 0.3
         # chain = ArmMotionChain()
@@ -51,8 +55,8 @@ def move_arm(req):
         # arm.move_chain(chain)
 
     except Exception as e:
-        print("Error in arm movement!")
-        print(e)
+        print("Error in arm movement:")
+        traceback.print_exc()
         return MoveArmResponse(False)
     return MoveArmResponse(True)
 

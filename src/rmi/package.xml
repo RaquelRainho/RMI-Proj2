@@ -33,6 +33,7 @@
   
   <run_depend>gazebo_ros</run_depend>
   <run_depend>roscpp</run_depend>
+  <run_depend>rospy</run_depend>
   <run_depend>protobuf</run_depend>
 
   <build_depend>message_generation</build_depend>

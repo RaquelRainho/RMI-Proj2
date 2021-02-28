@@ -1,1 +1,0 @@
-/home/ubuntu/Desktop/ur10e-hanoi/devel/.private/ur_msgs/share/roseus/ros/ur_msgs/msg/RobotStateRTMsg.l

@@ -1,8 +1,0 @@
-prefix=/home/ubuntu/Desktop/ur10e-hanoi/devel/.private/ur_controllers
-
-Name: ur_controllers
-Description: Description of ur_controllers
-Version: 0.0.2
-Cflags: -I/home/ubuntu/Desktop/ur10e-hanoi/src/iris_ur10e/ur_controllers/include
-Libs: -L${prefix}/lib -lur_controllers
-Requires: controller_interface hardware_interface joint_trajectory_controller pluginlib realtime_tools std_msgs

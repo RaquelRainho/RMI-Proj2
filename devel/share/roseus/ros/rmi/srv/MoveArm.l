@@ -1,1 +1,0 @@
-/home/ubuntu/Desktop/ur10e-hanoi/devel/.private/rmi/share/roseus/ros/rmi/srv/MoveArm.l

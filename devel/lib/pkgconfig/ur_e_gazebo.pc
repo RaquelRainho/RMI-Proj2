@@ -1,1 +1,0 @@
-/home/ubuntu/Desktop/ur10e-hanoi/devel/.private/ur_e_gazebo/lib/pkgconfig/ur_e_gazebo.pc

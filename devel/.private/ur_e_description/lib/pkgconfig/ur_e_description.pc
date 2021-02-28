@@ -1,8 +1,0 @@
-prefix=/home/ubuntu/Desktop/ur10e-hanoi/devel/.private/ur_e_description
-
-Name: ur_e_description
-Description: Description of ur_e_description
-Version: 1.2.5
-Cflags: 
-Libs: -L${prefix}/lib 
-Requires: 

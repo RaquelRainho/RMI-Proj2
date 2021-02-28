@@ -1,8 +1,0 @@
-prefix=/home/ubuntu/Desktop/ur10e-hanoi/install
-
-Name: rmi
-Description: Description of rmi
-Version: 0.0.0
-Cflags: -I${prefix}/include
-Libs: -L${prefix}/lib 
-Requires: roscpp gazebo_ros std_msgs message_generation
