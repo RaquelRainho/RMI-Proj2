@@ -5,7 +5,7 @@ from sami.factory import ArmIFFactory
 
 
 def EzPose(x=0.0, y=0.0, z=0.0, roll=0.0, pitch=0.0, yaw=0.0):
-    return [x, y, y, roll, pitch, yaw]
+    return [x, y, z, roll, pitch, yaw]
 
 
 class Arm(object):

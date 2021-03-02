@@ -7,18 +7,19 @@ import traceback
 from sami.arm import Arm, EzPose, ArmMotionChain
 from sami.gripper import Gripper
 from rmi.srv import *
+from rmi.msg import *
 
 def move_arm(req):
     try:
-        print("Attempting to move arm to [ %s, %s, %s, %s, %s, %s ]"%(req.x, req.y, req.z, req.roll, req.pitch, req.yaw))
+        print("Attempting to move arm to [ %s, %s, %s, %s, %s, %s ]"%(req.pose.x, req.pose.y, req.pose.z, req.pose.roll, req.pose.pitch, req.pose.yaw))
         #rospy.init_node('motion_planner', anonymous=True)
 
         arm = Arm('ur10e', group='manipulator')
         arm.velocity = 0.2
 
-        #gripper = Gripper('cr200-85', host='localhost', port=44221)
+        gripper = Gripper('cr200-85', host='localhost', port=44221)
 
-        pose = [ req.x, req.y, req.z, req.roll, req.pitch, req.yaw ]
+        pose = [ req.pose.x, req.pose.y, req.pose.z, req.pose.roll, req.pose.pitch, req.pose.yaw ]
         arm.move_pose(pose)
         #arm.move_pose_relative(dpose=EzPose(yaw=math.pi*0.25), velocity=0.4)
         
@@ -32,11 +33,11 @@ def move_arm(req):
         print("Gripping: %s"%(req.gripping))
         if req.gripping:
         	print("(closing gripper)")
-            #gripper.grip()
+        	gripper.grip()
         else:
         	print("(opening gripper")
-        	#gripper.grip()	# necessary for gripper's state machine ?
-        	#gripper.release()
+        	gripper.grip()	# necessary for gripper's state machine ?
+        	gripper.release()
 
         # a = 0.3
         # chain = ArmMotionChain()
@@ -53,6 +54,30 @@ def move_arm(req):
         # chain.sleep(2).pose_relative(dpose=EzPose(x=-0.1))
 
         # arm.move_chain(chain)
+
+    except Exception as e:
+        print("Error in arm movement:")
+        traceback.print_exc()
+        return MoveArmResponse(False)
+    return MoveArmResponse(True)
+
+def move_arm_chain(req):
+    try:
+        print("Attempting to move arm to [ %s, %s, %s, %s, %s, %s ]"%(req.pose.x, req.pose.y, req.pose.z, req.pose.roll, req.pose.pitch, req.pose.yaw))
+        #rospy.init_node('motion_planner', anonymous=True)
+
+        arm = Arm('ur10e', group='manipulator')
+        arm.velocity = 0.2
+
+        pose = [ req.pose.x, req.pose.y, req.pose.z, req.pose.roll, req.pose.pitch, req.pose.yaw ]
+        
+        #0.0, 0.64, 0.33, 0.0, 1.57, 1.57
+        chain = ArmMotionChain()
+
+        for i in range(0,20):
+        	chain.sleep(1).pose_relative(dpose=EzPose(z=0.01))
+
+        arm.move_chain(chain)
 
     except Exception as e:
         print("Error in arm movement:")
