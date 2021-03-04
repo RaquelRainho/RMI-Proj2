@@ -1,0 +1,12 @@
+#!/usr/bin/env python
+
+# SIMULATION PARAMETERS
+# Info on models sizes and positions
+
+MIDDLE_ROD_POS = [0, 0.7, 0.03]
+DISTANCE_BETWEEN_RODS = [0.15, 0, 0]
+ROD_HEIGHT = 0.18
+N_DISKS = 3
+DISK_HEIGHT = 0.04
+DISTANCE_DISK_HOLE_TO_HANDLE = [0.07, 0.06, 0.06]
+GRIPPER_LENGTH = 0.1

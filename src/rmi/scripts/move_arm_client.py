@@ -6,34 +6,53 @@ import sys
 from rmi.srv import *
 from rmi.msg import *
 
-def move_arm_client(pose, gripping):
-    print("Waiting for MoveArm service...")
-    rospy.wait_for_service('move_arm')
+
+# Request service to move the arm to an absolute pose.
+def move_arm_abs(pose, gripping):
+    print("Waiting for move_arm_abs service...")
+    rospy.wait_for_service('move_arm_abs')
     try:
         print("Requesting to move arm to [ %s, %s, %s, %s, %s, %s ] with gripping %s"%(pose.x, pose.y, pose.z, pose.roll, pose.pitch, pose.yaw, gripping))
-        move_arm = rospy.ServiceProxy('move_arm', MoveArm)
+        move_arm = rospy.ServiceProxy('move_arm_abs', MoveArm)
         resp = move_arm.call(MoveArmRequest(pose, gripping))
         return resp.success
     except rospy.ServiceException as e:
         print("Service call failed:", e)
 
+
+# Request service to move the arm to a pose relative to its current one.
+def move_arm_rel(pose, gripping):
+    print("Waiting for move_arm_rel service...")
+    rospy.wait_for_service('move_arm_rel')
+    try:
+        print("Requesting to move arm by [ %s, %s, %s, %s, %s, %s ] with gripping %s"%(pose.x, pose.y, pose.z, pose.roll, pose.pitch, pose.yaw, gripping))
+        move_arm = rospy.ServiceProxy('move_arm_rel', MoveArm)
+        resp = move_arm.call(MoveArmRequest(pose, gripping))
+        return resp.success
+    except rospy.ServiceException as e:
+        print("Service call failed:", e)
+
+
 if __name__ == '__main__':
     argv = rospy.myargv()
-    if len(argv) == 8:
+    if len(argv) == 9 and argv[1] in ["abs", "rel"]:
         try:
-            x = float(argv[1])
-            y = float(argv[2])
-            z = float(argv[3])
-            roll = float(argv[4])
-            pitch = float(argv[5])
-            yaw = float(argv[6])
-            gripping = argv[7].lower() == "true"
+            x = float(argv[2])
+            y = float(argv[3])
+            z = float(argv[4])
+            roll = float(argv[5])
+            pitch = float(argv[6])
+            yaw = float(argv[7])
+            gripping = argv[8].lower() == "true"
         except:
-            print("Args: x y z roll pitch yaw gripping")
+            print("Args: abs/rel x y z roll pitch yaw gripping")
             sys.exit(1)
     else:
-        print("Args: x y z roll pitch yaw gripping")
+        print("Args: abs/rel x y z roll pitch yaw gripping")
         sys.exit(1)
 
     pose = PoseCoords(x, y, z, roll, pitch, yaw)
-    print(move_arm_client(pose, gripping))
+    if [argv[1] == "rel"]:
+        print(move_arm_rel(pose, gripping))
+    else:
+        print(move_arm_abs(pose, gripping))
