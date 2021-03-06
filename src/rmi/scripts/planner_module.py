@@ -21,16 +21,16 @@ def rotate_vector(rot_matrix, vector):
 
 # Solves the Tower of Hanoi puzzle
 # Given the number of disks and the rod's indexes, returns the list of moves tuples (source, destination).
-def solve_puzzle(number_of_disks, initial_rod, final_rod, auxiliary_rod):
+def get_puzzle_solution(number_of_disks, initial_rod, final_rod, auxiliary_rod):
 	moves = []
 	if number_of_disks > 0:
-		moves = move(number_of_disks-1, initial_rod, auxiliary_rod, final_rod)
-		moves.append("(%s,%s)"%(initial_rod,final_rod))
-		moves.extend(move(number_of_disks-1, auxiliary_rod, final_rod, initial_rod))
+		moves = get_puzzle_solution(number_of_disks-1, initial_rod, auxiliary_rod, final_rod)
+		moves.append((initial_rod,final_rod))
+		moves.extend(get_puzzle_solution(number_of_disks-1, auxiliary_rod, final_rod, initial_rod))
 		return moves
 
 
-def main():
+def solve_puzzle():
 	# calculate the rods' coordinates
 	rods_pos = [[], [], []]
 	rods_pos[1] = MIDDLE_ROD_POS
@@ -69,7 +69,7 @@ def main():
 	prev_rod = 1
 	prev_disk = 0
 
-	moves = solve_puzzle(N_DISKS, initial_rod, (initial_rod+1)%3, (initial_rod+2)%3)
+	moves = get_puzzle_solution(N_DISKS, initial_rod, (initial_rod+1)%3, (initial_rod+2)%3)
 	moves.reverse()		# for easier iteration via list (simulating queue)
 	while moves:
 		# get initial and final rods for the movement
@@ -128,51 +128,28 @@ def main():
 	move_arm_abs(PoseCoords(rods_pos[1][0], rods_pos[1][1], rods_pos[1][2]+height_offset, roll, pitch, yaw), False)
 
 
-def main2():
-	rod_pos = [MIDDLE_ROD_POS-DISTANCE_BETWEEN_RODS,
-				MIDDLE_ROD_POS,
-				MIDDLE_ROD_POS+DISTANCE_BETWEEN_RODS]
-	for r in rod_pos:
-		r[2] += GRIPPER_LENGTH
-
-	rod_disks = [3, 0, 0]
-
-	roll = 0
-	pitch = math.pi/2
-	yaw = math.pi/2
-
-	moves = solve_puzzle(N_DISKS)
-	moves.reverse()		# for easier iteration via list (simulating queue)
-	while moves:
-		# get initial and final rods for the movement
-		rod_i,rod_f = moves.pop()
-		# get initial rod coordinates
-		pose_i = rod_pos[rod_i].copy()
-		# add the (height/z) offset for the current amount of disks in the rod
-		pose_i[2] += DISK_HEIGHT * (rod_disks[rod_i]-1)
-		# request movement
-		move_arm_abs(PoseCoords(pose_i[0], pose_i[1], pose_i[2], roll, pitch, yaw), True)
-
-		# get initial rod coordinates
-		pose_i_setup = rod_pos[rod_i].copy()
-		# add the (height/z) offset to a position above the rods
-		pose_i_setup[2] += ROD_HEIGHT + DISK_HEIGHT
-		# request chainned movement ("smoother"/more linear)
-		move_arm_abs(PoseCoords(pose_i_setup[0], pose_i_setup[1], pose_i_setup[2], roll, pitch, yaw), True)
-
-
 def setup_puzzle():
-	# spawn models?
-	os.system("rosrun gazebo_ros spawn_model -sdf -database hanoi_ring_3 -model ring3 -x -0.15 -y 0.7 -z 0.73 -Y " + str(pi))
-	os.system("rosrun gazebo_ros spawn_model -sdf -database hanoi_ring_2 -model ring2 -x -0.15 -y 0.7 -z 0.77 -Y " + str(pi))
-	os.system("rosrun gazebo_ros spawn_model -sdf -database hanoi_ring_1 -model ring1 -x -0.15 -y 0.7 -z 0.81 -Y " + str(pi))
 	pass
 
 
+# Spawns the disks models in a tower rod (ready) or random positions of the simulation world.
+def spawn_models(ready_positions):
+	if ready_positions:
+		os.system("rosrun gazebo_ros spawn_model -sdf -database hanoi_ring_3 -model ring3 -x -0.15 -y 0.7 -z 0.73 -Y " + str(pi))
+		os.system("rosrun gazebo_ros spawn_model -sdf -database hanoi_ring_2 -model ring2 -x -0.15 -y 0.7 -z 0.77 -Y " + str(pi))
+		os.system("rosrun gazebo_ros spawn_model -sdf -database hanoi_ring_1 -model ring1 -x -0.15 -y 0.7 -z 0.81 -Y " + str(pi))
+	else:
+		# TODO: setup an area to give as a random possible interval
+		os.system("rosrun gazebo_ros spawn_model -sdf -database hanoi_ring_3 -model ring3 -x -0.15 -y 0.7 -z 0.73 -Y " + str(pi))
+		os.system("rosrun gazebo_ros spawn_model -sdf -database hanoi_ring_2 -model ring2 -x -0.15 -y 0.7 -z 0.77 -Y " + str(pi))
+		os.system("rosrun gazebo_ros spawn_model -sdf -database hanoi_ring_1 -model ring1 -x -0.15 -y 0.7 -z 0.81 -Y " + str(pi))
+
+
 if __name__ == '__main__':
-	puzzle_ready = False
+	puzzle_ready = True
+	spawn_models(puzzle_ready)
 	if not puzzle_ready:
 		setup_puzzle()
 	print("Puzzle ready to be solved.")
-	main()
+	solve_puzzle()
 	print("Puzzle solved!")

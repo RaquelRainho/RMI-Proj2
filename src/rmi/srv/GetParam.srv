@@ -1,0 +1,6 @@
+---
+float32 rod_height
+float32 disk_height
+float32 gripper_length
+float32[] disk_handle_offset
+int8 number_of_disks

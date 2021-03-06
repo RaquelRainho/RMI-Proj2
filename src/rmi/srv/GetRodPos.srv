@@ -1,0 +1,4 @@
+---
+float32[3] left_rod
+float32[3] middle_rod
+float32[3] right_rod

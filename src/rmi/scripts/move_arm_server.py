@@ -13,7 +13,7 @@ from rmi.msg import *
 # Move the arm to an absolute pose.
 def move_arm_abs(req):
     try:
-        print("Attempting to move arm to [ %s, %s, %s, %s, %s, %s ]"%(req.pose.x, req.pose.y, req.pose.z, req.pose.roll, req.pose.pitch, req.pose.yaw))
+        rospy.loginfo("Attempting to move arm to [ %s, %s, %s, %s, %s, %s ]"%(req.pose.x, req.pose.y, req.pose.z, req.pose.roll, req.pose.pitch, req.pose.yaw))
 
         arm = Arm('ur10e', group='manipulator')
         arm.velocity = 0.2
@@ -23,19 +23,20 @@ def move_arm_abs(req):
         pose = [ req.pose.x, req.pose.y, req.pose.z, req.pose.roll, req.pose.pitch, req.pose.yaw ]
         arm.move_pose(pose)
 
-        print("Gripping: %s"%(req.gripping))
+        rospy.loginfo("Gripping: %s"%(req.gripping))
         global gripping_state
         if gripping_state != req.gripping:
+            gripping_state = req.gripping
             if req.gripping:
-            	print("(closing gripper)")
+            	#print("(closing gripper)")
             	gripper.grip()
             else:
-            	print("(opening gripper")
+            	#print("(opening gripper")
             	gripper.grip()	# necessary for gripper's state machine ?
             	gripper.release()
 
     except Exception as e:
-        print("Error in arm movement:")
+        rospy.logerr("Error in the arm movement!")
         traceback.print_exc()
         return MoveArmResponse(False)
     return MoveArmResponse(True)
@@ -44,7 +45,7 @@ def move_arm_abs(req):
 # Move the arm to a pose relative to its current one.
 def move_arm_rel(req):
     try:
-        print("Attempting to move arm by [ %s, %s, %s, %s, %s, %s ]"%(req.pose.x, req.pose.y, req.pose.z, req.pose.roll, req.pose.pitch, req.pose.yaw))
+        rospy.loginfo("Attempting to move arm by [ %s, %s, %s, %s, %s, %s ]"%(req.pose.x, req.pose.y, req.pose.z, req.pose.roll, req.pose.pitch, req.pose.yaw))
 
         arm = Arm('ur10e', group='manipulator')
         arm.velocity = 0.2
@@ -54,19 +55,20 @@ def move_arm_rel(req):
         pose = [ req.pose.x, req.pose.y, req.pose.z, req.pose.roll, req.pose.pitch, req.pose.yaw ]
         arm.move_pose_relative(pose)
 
-        print("Gripping: %s"%(req.gripping))
+        rospy.loginfo("Gripping: %s"%(req.gripping))
         global gripping_state
         if gripping_state != req.gripping:
+            gripping_state = req.gripping
             if req.gripping:
-                print("(closing gripper)")
+                #print("(closing gripper)")
                 gripper.grip()
             else:
-                print("(opening gripper")
+                #print("(opening gripper")
                 gripper.grip()  # necessary for gripper's state machine ?
                 gripper.release()
 
     except Exception as e:
-        print("Error in arm movement:")
+        rospy.logerr("Error in the arm movement!")
         traceback.print_exc()
         return MoveArmResponse(False)
     return MoveArmResponse(True)
@@ -75,7 +77,7 @@ def move_arm_rel(req):
 # UNUSED - leftover code from an alternative approach
 def move_arm_chain(req):
     try:
-        print("Attempting to move arm to [ %s, %s, %s, %s, %s, %s ]"%(req.pose.x, req.pose.y, req.pose.z, req.pose.roll, req.pose.pitch, req.pose.yaw))
+        rospy.loginfo("Attempting to move arm to [ %s, %s, %s, %s, %s, %s ]"%(req.pose.x, req.pose.y, req.pose.z, req.pose.roll, req.pose.pitch, req.pose.yaw))
 
         arm = Arm('ur10e', group='manipulator')
         arm.velocity = 0.2
@@ -90,7 +92,7 @@ def move_arm_chain(req):
         arm.move_chain(chain)
 
     except Exception as e:
-        print("Error in arm movement:")
+        rospy.logerr("Error in the arm movement!")
         traceback.print_exc()
         return MoveArmResponse(False)
     return MoveArmResponse(True)
@@ -100,7 +102,7 @@ def move_arm_server():
     rospy.init_node('motion_planner', anonymous=True)
     s1 = rospy.Service('move_arm_abs', MoveArm, move_arm_abs)
     s2 = rospy.Service('move_arm_rel', MoveArm, move_arm_rel)
-    print("MoveArm service is ready.")
+    rospy.loginfo("MoveArm service is ready.")
     rospy.spin()
 
 

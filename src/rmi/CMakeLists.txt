@@ -19,6 +19,8 @@ find_package(xacro REQUIRED)
 add_service_files( DIRECTORY srv
   FILES
   MoveArm.srv
+  GetParam.srv
+  GetRodPos.srv
 )
 
 add_message_files(
@@ -30,7 +32,7 @@ catkin_install_python(
   PROGRAMS
   scripts/move_arm_server.py
   scripts/move_arm_client.py
-  scripts/sim_par.py
+  scripts/param_provider.py
   scripts/planner_module.py
   DESTINATION ${CATKIN_PACKAGE_BIN_DESTINATION}
 )

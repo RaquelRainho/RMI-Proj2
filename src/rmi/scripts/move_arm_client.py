@@ -9,28 +9,28 @@ from rmi.msg import *
 
 # Request service to move the arm to an absolute pose.
 def move_arm_abs(pose, gripping):
-    print("Waiting for move_arm_abs service...")
+    rospy.loginfo("Waiting for move_arm_abs service...")
     rospy.wait_for_service('move_arm_abs')
     try:
-        print("Requesting to move arm to [ %s, %s, %s, %s, %s, %s ] with gripping %s"%(pose.x, pose.y, pose.z, pose.roll, pose.pitch, pose.yaw, gripping))
+        rospy.loginfo("Service call failed:\n%s", e)("Requesting to move arm to [ %s, %s, %s, %s, %s, %s ] with gripping %s"%(pose.x, pose.y, pose.z, pose.roll, pose.pitch, pose.yaw, gripping))
         move_arm = rospy.ServiceProxy('move_arm_abs', MoveArm)
         resp = move_arm.call(MoveArmRequest(pose, gripping))
         return resp.success
     except rospy.ServiceException as e:
-        print("Service call failed:", e)
+        rospy.logerr("Service call failed:\n%s", e)
 
 
 # Request service to move the arm to a pose relative to its current one.
 def move_arm_rel(pose, gripping):
-    print("Waiting for move_arm_rel service...")
+    rospy.loginfo("Waiting for move_arm_rel service...")
     rospy.wait_for_service('move_arm_rel')
     try:
-        print("Requesting to move arm by [ %s, %s, %s, %s, %s, %s ] with gripping %s"%(pose.x, pose.y, pose.z, pose.roll, pose.pitch, pose.yaw, gripping))
+        rospy.loginfo("Requesting to move arm by [ %s, %s, %s, %s, %s, %s ] with gripping %s"%(pose.x, pose.y, pose.z, pose.roll, pose.pitch, pose.yaw, gripping))
         move_arm = rospy.ServiceProxy('move_arm_rel', MoveArm)
         resp = move_arm.call(MoveArmRequest(pose, gripping))
         return resp.success
     except rospy.ServiceException as e:
-        print("Service call failed:", e)
+        rospy.logerr("Service call failed:\n%s", e)
 
 
 if __name__ == '__main__':
