@@ -12,7 +12,7 @@ def move_arm_abs(pose, gripping):
     rospy.loginfo("Waiting for move_arm_abs service...")
     rospy.wait_for_service('move_arm_abs')
     try:
-        rospy.loginfo("Service call failed:\n%s", e)("Requesting to move arm to [ %s, %s, %s, %s, %s, %s ] with gripping %s"%(pose.x, pose.y, pose.z, pose.roll, pose.pitch, pose.yaw, gripping))
+        rospy.loginfo("Requesting to move arm to [ %s, %s, %s, %s, %s, %s ] with gripping %s"%(pose.x, pose.y, pose.z, pose.roll, pose.pitch, pose.yaw, gripping))
         move_arm = rospy.ServiceProxy('move_arm_abs', MoveArm)
         resp = move_arm.call(MoveArmRequest(pose, gripping))
         return resp.success
