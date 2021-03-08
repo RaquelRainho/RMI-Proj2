@@ -1,5 +1,4 @@
 #include "ros/ros.h"
-// PCL specific includes
 #include <sensor_msgs/PointCloud2.h>
 #include <pcl_conversions/pcl_conversions.h>
 #include <pcl/point_cloud.h>
@@ -34,9 +33,10 @@ void processPC(int ringId, rmi::PoseCoords &pose){
   passThroughFilter.setFilterLimits(0.0, 1.19);
   passThroughFilter.filter(*pcPassFiltered);
 
-  sensor_msgs::PointCloud2 outputPassFiltered;
-  pcl::toROSMsg( *pcPassFiltered, outputPassFiltered);
-  pub.publish(outputPassFiltered);
+  // Used to verify the filter applied to the point cloud
+  //sensor_msgs::PointCloud2 outputPassFiltered;
+  //pcl::toROSMsg( *pcPassFiltered, outputPassFiltered);
+  //pub.publish(outputPassFiltered);
 
   // Color segmentation - filter ring by color
   pcl::ConditionAnd<pcl::PointXYZRGB>::Ptr colorCond (new pcl::ConditionAnd<pcl::PointXYZRGB> ());
@@ -60,9 +60,9 @@ void processPC(int ringId, rmi::PoseCoords &pose){
   condRem.setKeepOrganized(false);
   condRem.filter (*pcChosenRing);
 
-  //sensor_msgs::PointCloud2 outputColorSegm;
-  //pcl::toROSMsg( *pcChosenRing, outputColorSegm);
-  //pub.publish(outputColorSegm);
+  sensor_msgs::PointCloud2 outputColorSegm;
+  pcl::toROSMsg( *pcChosenRing, outputColorSegm);
+  pub.publish(outputColorSegm);
 
   // Calculate centroid
   Eigen::Vector4f centroid;
