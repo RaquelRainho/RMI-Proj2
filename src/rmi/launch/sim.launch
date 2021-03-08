@@ -50,6 +50,18 @@
   <node name="fake_gripper" pkg="ur_e_gazebo" type="fake_wr-cr200-85.py" 
       respawn="true" output="log"/>
 
+  <!-- start parameter service provider -->
+  <node name="param_provider" pkg="rmi" type="param_provider.py" 
+      respawn="true" output="screen"/>
+
+  <!-- start move_arm service provider (actuator module) -->
+  <node name="actuator" pkg="rmi" type="move_arm_server.py" 
+      respawn="true" output="screen"/>
+
+  <!-- start get_ring_pose service provider (perceptor module) -->
+  <node name="perceptor" pkg="rmi" type="perception_module" 
+      respawn="true" output="screen"/>
+
   <!-- launch MoveIt! stuff -->
   <group if="$(arg moveit)">
     <include file="$(find ur10_e_moveit_config)/launch/ur10_e_moveit_planning_execution.launch">

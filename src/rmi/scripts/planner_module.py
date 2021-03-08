@@ -28,7 +28,7 @@ def get_puzzle_solution(number_of_disks, initial_rod, final_rod, auxiliary_rod):
 		moves = get_puzzle_solution(number_of_disks-1, initial_rod, auxiliary_rod, final_rod)
 		moves.append((initial_rod,final_rod))
 		moves.extend(get_puzzle_solution(number_of_disks-1, auxiliary_rod, final_rod, initial_rod))
-		return moves
+	return moves
 
 
 def solve_puzzle(initial_rod=0):
@@ -160,7 +160,7 @@ def setup_puzzle(initial_rod=0):
 			rospy.loginfo("Requesting pose of disk %s."%(disk))
 			disk_srv = rospy.ServiceProxy('get_ring_pose', GetRingPose)
 			disk_pose = disk_srv.call(GetRingPoseRequest(ring_id=disk))
-			disks_pos[disk] = list(disk_pose.pose)
+			disks_pos.append([disk_pose.pose.x, disk_pose.pose.y, disk_pose.pose.z-disk_height, disk_pose.pose.roll, disk_pose.pose.pitch, disk_pose.pose.yaw])
 		except rospy.ServiceException as e:
 			rospy.logerr("Service call failed:\n%s", e)
 
@@ -169,7 +169,7 @@ def setup_puzzle(initial_rod=0):
 		print("Picking up disk %s at %s."%(disk, disks_pos[disk]))
 
 		# move arm to the position directly above the disk to pickup
-		move_arm_abs(PoseCoords(disks_pos[disk][0], disks_pos[disk][1], disks_pos[disk][2]+height_offset+rod_base_height+gripper_length, roll, pitch, yaw), False)
+		move_arm_abs(PoseCoords(disks_pos[disk][0], disks_pos[disk][1]-disk_handle_offset[disk], disks_pos[disk][2]+height_offset+rod_base_height+gripper_length, roll, pitch, yaw), False)
 
 		# get (downwards) translation to the disk on the table
 		dpose_i_base = [0, 0, -(height_offset + rod_base_height)]
@@ -213,9 +213,9 @@ def spawn_models(ready_positions, initial_rod=0):
 		os.system("rosrun gazebo_ros spawn_model -sdf -database hanoi_ring_1 -model ring1 -x -0.15 -y 0.7 -z 0.81 -Y " + str(pi))
 	else:
 		# TODO: setup an area to give as a random possible interval
-		os.system("rosrun gazebo_ros spawn_model -sdf -database hanoi_ring_3 -model ring3 -x -0.15 -y 0.5 -z 0.71 -Y " + str(pi))
-		os.system("rosrun gazebo_ros spawn_model -sdf -database hanoi_ring_2 -model ring2 -x 0 -y 0.5 -z 0.71 -Y " + str(pi))
-		os.system("rosrun gazebo_ros spawn_model -sdf -database hanoi_ring_1 -model ring1 -x 0.15 -y 0.5 -z 0.71 -Y " + str(pi))
+		os.system("rosrun gazebo_ros spawn_model -sdf -database hanoi_ring_3 -model ring3 -x -0.20 -y 0.5 -z 0.71 -Y " + str(pi))
+		os.system("rosrun gazebo_ros spawn_model -sdf -database hanoi_ring_2 -model ring2 -x -0.05 -y 0.5 -z 0.71 -Y " + str(pi))
+		os.system("rosrun gazebo_ros spawn_model -sdf -database hanoi_ring_1 -model ring1 -x -0.3 -y 0.6 -z 0.71 -Y " + str(pi))
 
 
 # Gets the information relative to models sizes and positions.
@@ -275,9 +275,9 @@ if __name__ == '__main__':
 	#print("Rod coordinates:\n\t%s\n\t%s\n\t%s"%(rods_pos[0], rods_pos[1], rods_pos[2]))
 	initial_rod = 0
 	puzzle_ready = False
-	#spawn_models(puzzle_ready, initial_rod)
+	spawn_models(puzzle_ready, initial_rod)
 	if not puzzle_ready:
 		setup_puzzle(initial_rod)
 	print("Puzzle ready to be solved.")
-	#solve_puzzle(initial_rod)
+	solve_puzzle(initial_rod)
 	print("Puzzle solved!")
